@@ -21,7 +21,7 @@ from bokeh.embed import components
 
 
 #
-# BEFORE RUNNING THIS FILE MAKE SURE YOU ARE IN THE FOLDER 'Flask Website'
+# BEFORE RUNNING THIS FILE MAKE SURE YOU ARE IN THE FOLDER 'Visualisation-Website'
 # 
 
 app = Flask(__name__, template_folder='./templates', static_folder='./static')
