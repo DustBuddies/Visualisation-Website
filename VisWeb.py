@@ -51,6 +51,8 @@ def vispage():
             file.save(os.path.join("uploads", sec_filename))
 
             os.system("python RadialVis.py") # This .py script generates the visualisation and places radial_nodes.html in the static folder
+            os.system("python ForceDirVis.py") #This generates the Force directed visualisation
+            
             inputdata = pd.read_csv("uploads/inputdata.csv")
             uniquejobs = sorted(np.unique(inputdata[["fromJobtitle", "toJobtitle"]].values))
 

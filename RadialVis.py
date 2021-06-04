@@ -41,7 +41,7 @@ uniquely = enronData[['toEmail', 'toJobtitle','toId']].drop_duplicates()
 #figure or plot? Only time will tell/stackoverflow
 plot = figure(plot_width=500, plot_height=500,
             x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1,1.1))
-plot.title.text = "Visualization 1"
+plot.title.text = "Radial Nodes and Links Graph"
 
 node_hover_tool = HoverTool(
     tooltips=[('Email', '@index'), ('ID', '@toId'), ('Job', '@toJobtitle')])

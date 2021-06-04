@@ -111,7 +111,7 @@
                                 <!--<v class="visoption" id="choice_1_0" onclick="selectVis(1,0)">-Select Visualisation-</v>-->
                                 <v class="visoption visselected" id="choice_1_1" onclick="selectVis(1,1)">Radial Nodes and Edges</v>
                                 <v class="visoption" id="choice_1_2" onclick="selectVis(1,2)">Force Directed Graph</v>
-                                <v class="visoption" id="choice_1_3" onclick="selectVis(1,3)">Vis 3</v>
+                                <!--<v class="visoption" id="choice_1_3" onclick="selectVis(1,3)">Vis 3</v>-->
                             </div>
                         </div>
 
@@ -126,12 +126,7 @@
                         <iframe class="visframe visible" src="static/radial_nodes{{exampledata}}.html" id="visualisation_1_1" frameborder="0"></iframe> 
                         <!--src="{{ url_for('static', filename='radial_nodes_vis.html') }}"-->
                         
-                        <p class="visframe" id="visualisation_1_2">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
+                        <iframe class="visframe" src="static/force_dir{{exampledata}}.html" id="visualisation_1_2" frameborder="0"></iframe>
 
                         <p class="visframe" id="visualisation_1_3">
                             Nothing yet here lol
@@ -155,7 +150,7 @@
                                 <!--<v class="visoption" id="choice_2_0" onclick="selectVis(2,0)">-Select Visualisation-</v>-->
                                 <v class="visoption" id="choice_2_1" onclick="selectVis(2,1)">Radial Nodes and Edges</v>
                                 <v class="visoption visselected" id="choice_2_2" onclick="selectVis(2,2)">Force Directed Graph</v>
-                                <v class="visoption" id="choice_2_3" onclick="selectVis(2,3)">Vis 3</v>
+                                <!--<v class="visoption" id="choice_2_3" onclick="selectVis(2,3)">Vis 3</v>-->
                             </div>
                         </div> 
                         <div class="fullscreen_div">
@@ -167,12 +162,7 @@
                         
                         <iframe class="visframe" src="static/radial_nodes{{exampledata}}.html" id="visualisation_2_1" frameborder="0"></iframe> <!--scrolling="no"-->
                         
-                        <p class="visframe visible" id="visualisation_2_2">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                        </p>
+                        <iframe class="visframe visible" src="static/force_dir{{exampledata}}.html" id="visualisation_2_2" frameborder="0"></iframe>
                         
                         <p class="visframe" id="visualisation_2_3">
                             Nothing yet here lol

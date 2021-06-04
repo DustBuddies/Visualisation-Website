@@ -66,7 +66,7 @@ function OpenFullscreen(visbox) { // This function makes the fullscreen buttons 
         var visbox_=document.getElementById("visbox_"+visbox);
         visbox_.requestFullscreen();
 
-        var visframes=document.getElementsByClassName("visframe visible");
+        var visframes=document.getElementsByClassName("visframe");
         for (var j=0; j<visframes.length; j++) {
 
             visframes[j].classList.add("fullscreen");

@@ -407,16 +407,8 @@ li a:hover {
 
     /*background-color: rgb(68, 0, 255); */
     display: none;
-    transform: translate(-49vw, 0); 
+    transform: translate(-49vw, 0) scale(1.4); 
     transform-origin: top left;
     position: absolute;
     float: left;
-}
-
-#visualisation_1_1.fullscreen {
-    transform: translate(-49vw, 0) scale(1.4);
-}
-
-#visualisation_2_1.fullscreen {
-    transform: translate(-49vw, 0) scale(1.4);
 }
