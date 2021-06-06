@@ -20,9 +20,14 @@ from bokeh.transform import factor_cmap
 import os
 import glob
 
+import sys
 
+if (len(sys.argv)==1): # if no extra argument is given then load inputdata.csv. ex: "py RadialVis.py"
+    examplestring=""
+else:
+    examplestring=sys.argv[1] #If another argument is given this will be part of thefilename. ex: "py RadialVis.py _example"
 
-csv_files = glob.glob(os.path.join('uploads', "inputdata.csv"))
+csv_files = glob.glob(os.path.join('uploads', "inputdata"+examplestring+".csv"))
 for f in csv_files:
     enronData = pd.read_csv(f)
 
@@ -119,7 +124,7 @@ plot.renderers.append(graph_renderer)
 unique_list
 
 layout = column(plot)
-output_file("static/force_dir.html",
+output_file("static/force_dir"+examplestring+".html",
             title="Force Directed Graph")
 save(layout)
 #show(layout)

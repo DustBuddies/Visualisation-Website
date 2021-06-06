@@ -30,7 +30,7 @@ app = Flask(__name__, template_folder='./templates', static_folder='./static')
 def homepage():
     return render_template("home.html")
 
-exampledata = pd.read_csv("uploads/example_data.csv")
+exampledata = pd.read_csv("uploads/inputdata_example.csv")
 examplejobs=sorted(np.unique(exampledata[["fromJobtitle", "toJobtitle"]].values))
 
 @app.route('/visualisation', methods = ["GET", "POST"])
@@ -60,6 +60,9 @@ def vispage():
         else: # page shown when the user successfully uploads an invalid file
             return render_template("visualisation.html", exampledata="_example", message="Wrong file type!", categories=examplejobs)
     else:
+
+        os.system("python RadialVis.py _example")  # This loads the inputdata_example.csv file when the page first loads
+        os.system("python ForceDirVis.py _example") # This loads the inputdata_example.csv file when the page first loads
 
         #if os.path.exists("static/radial_nodes.html"): # This code below automatically removes the old vis
             #os.remove("static/radial_nodes.html") 

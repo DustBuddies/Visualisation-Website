@@ -19,9 +19,14 @@ from bokeh.embed import components
 import os
 import glob
 
+import sys
 
+if (len(sys.argv)==1): # if no extra argument is given then load inputdata.csv. ex: "py RadialVis.py"
+    examplestring=""
+else:
+    examplestring=sys.argv[1] #If another argument is given this will be part of thefilename. ex: "py RadialVis.py _example"
 
-csv_files = glob.glob(os.path.join('uploads', "inputdata.csv"))
+csv_files = glob.glob(os.path.join('uploads', "inputdata"+examplestring+".csv"))
 for f in csv_files:
     enronData = pd.read_csv(f)
 
@@ -130,7 +135,7 @@ date_range_slider.js_on_change('value', callback)
 layout = column(plot, date_range_slider)
 
 
-output_file("static/radial_nodes.html",
+output_file("static/radial_nodes"+examplestring+".html",
             title="Radial Node and Link Visualisation")
 save(layout)
 #show(layout) # keep this commented please :))
