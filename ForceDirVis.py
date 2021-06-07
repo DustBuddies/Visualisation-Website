@@ -20,111 +20,111 @@ from bokeh.transform import factor_cmap
 import os
 import glob
 
-import sys
+def main(examplestring): # examplestring should either be: "" or it should be: "_example"
 
-if (len(sys.argv)==1): # if no extra argument is given then load inputdata.csv. ex: "py RadialVis.py"
-    examplestring=""
-else:
-    examplestring=sys.argv[1] #If another argument is given this will be part of thefilename. ex: "py RadialVis.py _example"
+    csv_files = glob.glob(os.path.join('uploads', "inputdata"+examplestring+".csv"))
+    for f in csv_files:
+        enronData = pd.read_csv(f)
 
-csv_files = glob.glob(os.path.join('uploads', "inputdata"+examplestring+".csv"))
-for f in csv_files:
-    enronData = pd.read_csv(f)
+    enronData['date'] = pd.to_datetime(enronData['date']).dt.date
+    #enronData = enronData.sort_values(by=['date'])
+    enronData['edge_color'] = 'red'
+    enronData.loc[enronData['sentiment'] >= 0, 'edge_color'] = 'green'
 
-enronData['date'] = pd.to_datetime(enronData['date']).dt.date
-#enronData = enronData.sort_values(by=['date'])
-enronData['edge_color'] = 'red'
-enronData.loc[enronData['sentiment'] >= 0, 'edge_color'] = 'green'
-
-G = nx.karate_club_graph()
-G = nx.from_pandas_edgelist(enronData, 'fromEmail', 'toEmail', edge_attr=['date', 'sentiment','edge_color'],create_using=nx.Graph())
+    G = nx.karate_club_graph()
+    G = nx.from_pandas_edgelist(enronData, 'fromEmail', 'toEmail', edge_attr=['date', 'sentiment','edge_color'],create_using=nx.Graph())
 
 
-plot = figure(plot_width=500, plot_height=500,
-            x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
-plot.title.text = "Force Directed Graph"
+    plot = figure(plot_width=500, plot_height=500,
+                x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
+    plot.title.text = "Force Directed Graph"
 
 
-degrees = dict(nx.degree(G))
-nx.set_node_attributes(G, name='degree', values=degrees)
+    degrees = dict(nx.degree(G))
+    nx.set_node_attributes(G, name='degree', values=degrees)
 
-number_to_adjust_by = 5
-adjusted_node_size = dict([(node, degree+number_to_adjust_by) for node, degree in nx.degree(G)])
-nx.set_node_attributes(G, name='adjusted_node_size', values=adjusted_node_size)
+    number_to_adjust_by = 5
+    adjusted_node_size = dict([(node, degree+number_to_adjust_by) for node, degree in nx.degree(G)])
+    nx.set_node_attributes(G, name='adjusted_node_size', values=adjusted_node_size)
 
-size_by_this_attribute = 'adjusted_node_size'
+    size_by_this_attribute = 'adjusted_node_size'
 
-#node_positions = {node[0]: (node[1]['X'], -node[1]['Y']) for node in G.nodes(data=True)} # This code seems to be broken, but I'm not sure what is is even supposed to do?
-#pos=dict(list(node_positions.items())[0:5])
-#nx.draw_networkx_nodes(G, pos, node_size=size_by_this_attribute)
+    #node_positions = {node[0]: (node[1]['X'], -node[1]['Y']) for node in G.nodes(data=True)} # This code seems to be broken, but I'm not sure what is is even supposed to do?
+    #pos=dict(list(node_positions.items())[0:5])
+    #nx.draw_networkx_nodes(G, pos, node_size=size_by_this_attribute)
 
-list(G.nodes)
-enronData
-uniquely = enronData[['toEmail','toJobtitle','toId']].drop_duplicates()
-uniquely
+    list(G.nodes)
+    enronData
+    uniquely = enronData[['toEmail','toJobtitle','toId']].drop_duplicates()
+    uniquely
 
 
-unique_list = []
-for job in enronData['toJobtitle']:
-    if job not in unique_list:
-        unique_list.append(job)
+    unique_list = []
+    for job in enronData['toJobtitle']:
+        if job not in unique_list:
+            unique_list.append(job)
+            
+    uniquely['node_color'] = 'white'
+    uniquely.loc[uniquely['toJobtitle'] == 'Unknown', 'node_color'] = 'yellow'
+    uniquely.loc[uniquely['toJobtitle'] == 'Trader', 'node_color'] = 'orange'
+    uniquely.loc[uniquely['toJobtitle'] == 'Vice President', 'node_color'] = 'purple'
+    uniquely.loc[uniquely['toJobtitle'] == 'Employee', 'node_color'] = 'springgreen'
+    uniquely.loc[uniquely['toJobtitle'] == 'Managing Director', 'node_color'] = 'silver'
+    uniquely.loc[uniquely['toJobtitle'] == 'Manager', 'node_color'] = 'palegoldenrod'
+    uniquely.loc[uniquely['toJobtitle'] == 'President', 'node_color'] = 'pink'
+    uniquely.loc[uniquely['toJobtitle'] == 'Director', 'node_color'] = 'cornflowerblue'
+    uniquely.loc[uniquely['toJobtitle'] == 'CEO', 'node_color'] = 'crimson'
+
+    #uniquely['toJobtitle'] = pd.Categorical(uniquely['toJobtitle'])
+    #uniquely['toJobtitle'].cat.codes
+
+    #cmap = plt.colors.ListedColormap(['yellow', 'orange', 'purple', 'springgreen', 'silver', 'palegoldenrod', 'pink', 'cornflowerblue', 'crimson'])
         
-uniquely['node_color'] = 'white'
-uniquely.loc[uniquely['toJobtitle'] == 'Unknown', 'node_color'] = 'yellow'
-uniquely.loc[uniquely['toJobtitle'] == 'Trader', 'node_color'] = 'orange'
-uniquely.loc[uniquely['toJobtitle'] == 'Vice President', 'node_color'] = 'purple'
-uniquely.loc[uniquely['toJobtitle'] == 'Employee', 'node_color'] = 'springgreen'
-uniquely.loc[uniquely['toJobtitle'] == 'Managing Director', 'node_color'] = 'silver'
-uniquely.loc[uniquely['toJobtitle'] == 'Manager', 'node_color'] = 'palegoldenrod'
-uniquely.loc[uniquely['toJobtitle'] == 'President', 'node_color'] = 'pink'
-uniquely.loc[uniquely['toJobtitle'] == 'Director', 'node_color'] = 'cornflowerblue'
-uniquely.loc[uniquely['toJobtitle'] == 'CEO', 'node_color'] = 'crimson'
+    #nx.draw(G, node_color=uniquely['toJobtitle'].cat.codes, cmap=cmap)
+        
+    node_hover_tool = HoverTool(tooltips=[('Email', '@toEmail'), ('ID', '@toId'), ('Job', '@toJobtitle')])
+    plot.add_tools(node_hover_tool, TapTool())
 
-#uniquely['toJobtitle'] = pd.Categorical(uniquely['toJobtitle'])
-#uniquely['toJobtitle'].cat.codes
+    #plot.xgrid.visible = False
+    #plot.ygrid.visible = False
 
-#cmap = plt.colors.ListedColormap(['yellow', 'orange', 'purple', 'springgreen', 'silver', 'palegoldenrod', 'pink', 'cornflowerblue', 'crimson'])
-    
-#nx.draw(G, node_color=uniquely['toJobtitle'].cat.codes, cmap=cmap)
-    
-node_hover_tool = HoverTool(tooltips=[('Email', '@toEmail'), ('ID', '@toId'), ('Job', '@toJobtitle')])
-plot.add_tools(node_hover_tool, TapTool())
+    #plot.xaxis.visible = False
+    #plot.yaxis.visible = False
 
-#plot.xgrid.visible = False
-#plot.ygrid.visible = False
+    # create bokeh graph
+    graph_renderer = from_networkx(G, nx.spring_layout, scale=10, center=(0,0))
 
-#plot.xaxis.visible = False
-#plot.yaxis.visible = False
+    source = ColumnDataSource(data=enronData)
 
-# create bokeh graph
-graph_renderer = from_networkx(G, nx.spring_layout, scale=10, center=(0,0))
+    graph_renderer.node_renderer.data_source.add(uniquely['node_color'], 'color')
+    graph_renderer.node_renderer.glyph = Circle(size=size_by_this_attribute, fill_color="color")
+    graph_renderer.node_renderer.selection_glyph = Circle(size=15, fill_color=Spectral4[2])
+    graph_renderer.node_renderer.hover_glyph = Circle(size=15, fill_color=Spectral4[1])
 
-source = ColumnDataSource(data=enronData)
+    graph_renderer.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=5)
+    graph_renderer.edge_renderer.selection_glyph = MultiLine(line_color=Spectral4[2], line_width=5)
+    graph_renderer.edge_renderer.hover_glyph = MultiLine(line_color=Spectral4[1], line_width=5)
 
-graph_renderer.node_renderer.data_source.add(uniquely['node_color'], 'color')
-graph_renderer.node_renderer.glyph = Circle(size=size_by_this_attribute, fill_color="color")
-graph_renderer.node_renderer.selection_glyph = Circle(size=15, fill_color=Spectral4[2])
-graph_renderer.node_renderer.hover_glyph = Circle(size=15, fill_color=Spectral4[1])
+    graph_renderer.selection_policy = NodesAndLinkedEdges()
+    #graph_renderer.inspection_policy = NodesAndLinkedEdges()
 
-graph_renderer.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=5)
-graph_renderer.edge_renderer.selection_glyph = MultiLine(line_color=Spectral4[2], line_width=5)
-graph_renderer.edge_renderer.hover_glyph = MultiLine(line_color=Spectral4[1], line_width=5)
+    graph_renderer.node_renderer.data_source.data['toId'] = uniquely['toId']
+    graph_renderer.node_renderer.data_source.data['toEmail'] = uniquely['toEmail']
+    graph_renderer.node_renderer.data_source.data['toJobtitle'] = uniquely['toJobtitle']
 
-graph_renderer.selection_policy = NodesAndLinkedEdges()
-#graph_renderer.inspection_policy = NodesAndLinkedEdges()
+    graph_renderer.edge_renderer.glyph = MultiLine(line_color="edge_color", line_alpha=0.8, line_width=1)
 
-graph_renderer.node_renderer.data_source.data['toId'] = uniquely['toId']
-graph_renderer.node_renderer.data_source.data['toEmail'] = uniquely['toEmail']
-graph_renderer.node_renderer.data_source.data['toJobtitle'] = uniquely['toJobtitle']
+    plot.renderers.append(graph_renderer)
 
-graph_renderer.edge_renderer.glyph = MultiLine(line_color="edge_color", line_alpha=0.8, line_width=1)
+    unique_list
 
-plot.renderers.append(graph_renderer)
+    layout = column(plot)
+    output_file("static/force_dir"+examplestring+".html",
+                title="Force Directed Graph")
+    save(layout)
+    #show(layout)
 
-unique_list
+if __name__ == '__main__': # This allows you to run ForceDirVis.py separately
+    main("")
 
-layout = column(plot)
-output_file("static/force_dir"+examplestring+".html",
-            title="Force Directed Graph")
-save(layout)
-#show(layout)
+

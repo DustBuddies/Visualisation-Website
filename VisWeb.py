@@ -19,6 +19,8 @@ from bokeh.models.graphs import from_networkx
 from datetime import date
 from bokeh.embed import components
 
+import RadialVis
+import ForceDirVis
 
 #
 # BEFORE RUNNING THIS FILE MAKE SURE YOU ARE IN THE FOLDER 'Visualisation-Website'
@@ -50,8 +52,8 @@ def vispage():
             sec_filename=secure_filename("inputdata.csv") #file.filename
             file.save(os.path.join("uploads", sec_filename))
 
-            os.system("python RadialVis.py") # This .py script generates the visualisation and places radial_nodes.html in the static folder
-            os.system("python ForceDirVis.py") #This generates the Force directed visualisation
+            RadialVis.main("") # This generates the visualisation from inputdata.csv and places radial_nodes.html in the static folder
+            ForceDirVis.main("") #This generates the Force directed visualisation
             
             inputdata = pd.read_csv("uploads/inputdata.csv")
             uniquejobs = sorted(np.unique(inputdata[["fromJobtitle", "toJobtitle"]].values))
@@ -61,8 +63,8 @@ def vispage():
             return render_template("visualisation.html", exampledata="_example", message="Wrong file type!", categories=examplejobs)
     else:
 
-        os.system("python RadialVis.py _example")  # This loads the inputdata_example.csv file when the page first loads
-        os.system("python ForceDirVis.py _example") # This loads the inputdata_example.csv file when the page first loads
+        RadialVis.main("_example")  # This loads the inputdata_example.csv file when the page first loads
+        ForceDirVis.main("_example") # This loads the inputdata_example.csv file when the page first loads
 
         #if os.path.exists("static/radial_nodes.html"): # This code below automatically removes the old vis
             #os.remove("static/radial_nodes.html") 
