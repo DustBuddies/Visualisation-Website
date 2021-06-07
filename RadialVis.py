@@ -42,8 +42,14 @@ def main(examplestring): # examplestring should either be: "" or it should be: "
     plot.title.text = "Radial Nodes and Links Graph"
 
     node_hover_tool = HoverTool(
-        tooltips=[('Email', '@index'), ('ID', '@toId'), ('Job', '@toJobtitle')])
+        tooltips=[('Email', '@toEmail'), ('ID', '@toId'), ('Job', '@toJobtitle')])
     plot.add_tools(node_hover_tool, TapTool())
+
+    plot.xgrid.visible = False
+    plot.ygrid.visible = False
+
+    plot.xaxis.visible = False
+    plot.yaxis.visible = False
 
     graph_renderer = from_networkx(G, nx.circular_layout, scale=1, center=(0, 0))
 
@@ -68,7 +74,7 @@ def main(examplestring): # examplestring should either be: "" or it should be: "
     #graph_renderer.inspection_policy = NodesAndLinkedEdges()
 
     graph_renderer.node_renderer.data_source.data['toId'] = uniquely['toId']
-    graph_renderer.node_renderer.data_source.data['toEmail'] = list(G.nodes)
+    graph_renderer.node_renderer.data_source.data['toEmail'] = uniquely['toEmail']
     graph_renderer.node_renderer.data_source.data['toJobtitle'] = uniquely['toJobtitle']
 
     graph_renderer.edge_renderer.glyph = MultiLine(

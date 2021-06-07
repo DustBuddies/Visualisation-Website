@@ -31,12 +31,12 @@ def main(examplestring): # examplestring should either be: "" or it should be: "
     enronData['edge_color'] = 'red'
     enronData.loc[enronData['sentiment'] >= 0, 'edge_color'] = 'green'
 
-    G = nx.karate_club_graph()
+    G = nx.Graph()
     G = nx.from_pandas_edgelist(enronData, 'fromEmail', 'toEmail', edge_attr=['date', 'sentiment','edge_color'],create_using=nx.Graph())
 
 
     plot = figure(plot_width=500, plot_height=500,
-                x_range=Range1d(-1.1,1.1), y_range=Range1d(-1.1,1.1))
+                x_range=Range1d(-2,2), y_range=Range1d(-2,2))
     plot.title.text = "Force Directed Graph"
 
 
@@ -44,7 +44,8 @@ def main(examplestring): # examplestring should either be: "" or it should be: "
     nx.set_node_attributes(G, name='degree', values=degrees)
 
     number_to_adjust_by = 5
-    adjusted_node_size = dict([(node, degree+number_to_adjust_by) for node, degree in nx.degree(G)])
+    number_to_multiply_by = 0.5
+    adjusted_node_size = dict([(node, (degree+number_to_adjust_by)*number_to_multiply_by) for node, degree in nx.degree(G)])
     nx.set_node_attributes(G, name='adjusted_node_size', values=adjusted_node_size)
 
     size_by_this_attribute = 'adjusted_node_size'
@@ -64,7 +65,7 @@ def main(examplestring): # examplestring should either be: "" or it should be: "
         if job not in unique_list:
             unique_list.append(job)
             
-    uniquely['node_color'] = 'white'
+    uniquely['node_color'] = 'black'
     uniquely.loc[uniquely['toJobtitle'] == 'Unknown', 'node_color'] = 'yellow'
     uniquely.loc[uniquely['toJobtitle'] == 'Trader', 'node_color'] = 'orange'
     uniquely.loc[uniquely['toJobtitle'] == 'Vice President', 'node_color'] = 'purple'
@@ -85,14 +86,14 @@ def main(examplestring): # examplestring should either be: "" or it should be: "
     node_hover_tool = HoverTool(tooltips=[('Email', '@toEmail'), ('ID', '@toId'), ('Job', '@toJobtitle')])
     plot.add_tools(node_hover_tool, TapTool())
 
-    #plot.xgrid.visible = False
-    #plot.ygrid.visible = False
+    plot.xgrid.visible = False
+    plot.ygrid.visible = False
 
-    #plot.xaxis.visible = False
-    #plot.yaxis.visible = False
+    plot.xaxis.visible = False
+    plot.yaxis.visible = False
 
     # create bokeh graph
-    graph_renderer = from_networkx(G, nx.spring_layout, scale=10, center=(0,0))
+    graph_renderer = from_networkx(G, nx.kamada_kawai_layout, scale=1.7, center=(0,0))
 
     source = ColumnDataSource(data=enronData)
 
