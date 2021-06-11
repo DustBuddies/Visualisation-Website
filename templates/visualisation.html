@@ -6,7 +6,7 @@
     <script src="{{ url_for('static', filename='scripts.js') }}"></script> 
 </head>
 
-<body> <!--onload="selectVis(1,1); selectVis(2,2)"-->
+<body>
     
     <nav>
         <a href="/">Home</a>
@@ -38,11 +38,6 @@
                         <input type="submit" id="example_button" style="color:black" value="Show Example Data"></input>
                     </form>
 
-                    <!--
-                    <form action="/run_vis_1" method="POST">
-                        <input type="submit">
-                    </form>
-                    -->
                     <p>
                         {{ message }}
                     </p>
@@ -123,23 +118,19 @@
                     <div class="viswrap">
                         <img class="visframe" id="visualisation_1_0" src = "https://source.colostate.edu/wp-content/uploads/2015/09/circos_ngs.jpg">
 
-                        <iframe class="visframe visible" src="static/radial_nodes{{exampledata}}.html" id="visualisation_1_1" frameborder="0"></iframe> 
-                        <!--src="{{ url_for('static', filename='radial_nodes_vis.html') }}"-->
-                        
-                        <iframe class="visframe" src="static/force_dir{{exampledata}}.html" id="visualisation_1_2" frameborder="0"></iframe>
+                        <div class="visframe visible" id="visualisation_1_1"> 
+                            {{Radial|safe}}
+                        </div>
+
+                        <div class="visframe" id="visualisation_1_2"> 
+                            {{ForceDir|safe}}
+                        </div>
 
                         <p class="visframe" id="visualisation_1_3">
                             Nothing yet here lol
                         </p>
                     </div>
 
-                    <!--
-                    <br>
-                    <div class="search_div">    
-                        <input class="searchbox" id="search_1" type="text" placeholder="Search nodes here">
-                        <button class="search_button" id="search1_btn" type="submit" onclick="alert('not functional')">Search </button>
-                    </div>
-                    -->
                 </section>
 
                 <section class="visbox" id="visbox_2">
@@ -160,22 +151,20 @@
                     <div class="viswrap">
                         <img class="visframe" id="visualisation_2_0" src = "https://source.colostate.edu/wp-content/uploads/2015/09/circos_ngs.jpg">
                         
-                        <iframe class="visframe" src="static/radial_nodes{{exampledata}}.html" id="visualisation_2_1" frameborder="0"></iframe> <!--scrolling="no"-->
-                        
-                        <iframe class="visframe visible" src="static/force_dir{{exampledata}}.html" id="visualisation_2_2" frameborder="0"></iframe>
-                        
+
+                        <div class="visframe" id="visualisation_2_1">
+                            {{Radial|safe}}
+                        </div>
+
+                        <div class="visframe visible" id="visualisation_2_2">
+                            {{ForceDir|safe}}
+                        </div>
+
                         <p class="visframe" id="visualisation_2_3">
                             Nothing yet here lol
                         </p>
                     </div>
-                    
-                    <!--
-                    <br>
-                    <div class="search_div">    
-                        <input class="searchbox" id="search_2" type="text" placeholder="Search nodes here" >  
-                        <button class="search_button" id="search2_btn" type="submit" onclick="alert('not functional')">Search </button>
-                    </div>
-                    -->
+
                 </section>
                 
             </section>

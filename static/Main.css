@@ -407,7 +407,7 @@ li a:hover {
 
     /*background-color: rgb(68, 0, 255); */
     display: none;
-    transform: translate(-49vw, 0) scale(1.4); 
+    transform: translate(-49vw, 0); /*scale(1.4)*/
     transform-origin: top left;
     position: absolute;
     float: left;
