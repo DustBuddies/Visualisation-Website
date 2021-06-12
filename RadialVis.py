@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
+import matplotlib as plt
 import networkx as nx
 from bokeh.io import output_file, show, save, curdoc, output_notebook
-from bokeh.layouts import layout, row, column
+from bokeh.layouts import row, column
 from bokeh.models import Plot, Range1d, MultiLine, Circle, TapTool, OpenURL, HoverTool, CustomJS, Slider, Column
 from bokeh.models import BoxSelectTool, BoxZoomTool, Circle, EdgesAndLinkedNodes, HoverTool, MultiLine, NodesAndLinkedEdges, Plot, Range1d, ResetTool, TapTool
 from bokeh.palettes import Spectral4
@@ -14,15 +14,18 @@ from bokeh.models import CustomJS, DateRangeSlider, Dropdown, ColumnDataSource
 import os
 import glob
 import re
+import subprocess
+import time
+import signal
+import atexit
 
 
 
-args = curdoc().session_context.request.arguments
-
-try:
+try: # This mess gets the string of the file suffix: either "" or "_example"
+    args = curdoc().session_context.request.arguments
     weirdstring=str(args.get('exampledata')[0])
     cleanstring = ( re.findall("\'(.*?)\'", weirdstring )[0] )
-except (ValueError, TypeError):
+except (ValueError, TypeError, AttributeError):
     cleanstring="_example"
 
 
@@ -44,7 +47,7 @@ date_range_slider = DateRangeSlider(value=(date(1998, 11, 12), date(2002, 6, 20)
 uniquely = enronData[['toEmail', 'toJobtitle','toId']].drop_duplicates()
 
 #figure or plot? Only time will tell/stackoverflow
-plot = figure(plot_width=700, plot_height=600,
+plot = figure(plot_width=700, plot_height=700,
             x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1,1.1))
 plot.title.text = "Radial Nodes and Links Graph"
 
@@ -133,10 +136,22 @@ eDate = enronData['date']
 
 date_range_slider.js_on_change('value', callback)
 
-#layout = row(plot, date_range_slider, width=800)
+bokeh_layout = column(plot, date_range_slider)
 
-curdoc().add_root(column(plot, date_range_slider))
+curdoc().add_root(bokeh_layout)
 #output_file("static/radial_nodes"+examplestring+".html", title="Radial Node and Link Visualisation")
-#save(layout)
-#show(layout) # keep this commented please :))
+#save(bokeh_layout) # Please do not use the show() or save() functions.
+#show(bokeh_layout) # Please do not use the show() or save() functions.
 
+if __name__=="__main__": # This only runs when you run RadialVis.py standalone
+    radial_process = subprocess.Popen(
+    ['python', '-m', 'bokeh', 'serve', '--allow-websocket-origin=127.0.0.1:5000', '--port', '5001', '--allow-websocket-origin=localhost:5001', 'RadialVis.py'], stdout=subprocess.PIPE)
+
+    print("You have 15 seconds to view the visualisation. Please do not ctrl+c")
+    time.sleep(15)
+
+    def kill_temp_server():
+        print("Automatically killing bokeh server after 15 sec")
+        radial_process.kill()
+    atexit.register(kill_temp_server)
+    

@@ -1,30 +1,31 @@
-from bokeh.io.doc import curdoc
 import numpy as np
 import pandas as pd
 import seaborn as sns
 import matplotlib as plt
 import networkx as nx
-from bokeh.io import output_file, show, save
+from bokeh.io import output_file, show, save, curdoc
 from bokeh.layouts import row, column
 from bokeh.models import Plot, Range1d, MultiLine, Circle, TapTool, OpenURL, HoverTool, CustomJS, Slider, Column
 from bokeh.models import BoxSelectTool, BoxZoomTool, Circle, EdgesAndLinkedNodes, HoverTool, MultiLine, NodesAndLinkedEdges, Plot, Range1d, ResetTool, TapTool
 from bokeh.palettes import Spectral4, Spectral8
 from bokeh.plotting import figure, from_networkx
 from datetime import date
-from bokeh.models import CustomJS, DateRangeSlider,Dropdown, ColumnDataSource
+from bokeh.models import CustomJS, DateRangeSlider, Dropdown, ColumnDataSource
 from bokeh.transform import factor_cmap
 import os
 import glob
 import re
+import subprocess
+import time
+import atexit
 
 
 
-args = curdoc().session_context.request.arguments
-
-try:
+try: # This mess gets the string of the file suffix: either "" or "_example"
+    args = curdoc().session_context.request.arguments
     weirdstring=str(args.get('exampledata')[0])
     cleanstring = ( re.findall("\'(.*?)\'", weirdstring )[0] )
-except (ValueError, TypeError):
+except (ValueError, TypeError, AttributeError):
     cleanstring="_example"
 
 
@@ -43,7 +44,7 @@ G = nx.Graph()
 G = nx.from_pandas_edgelist(enronData, 'fromEmail', 'toEmail', edge_attr=['date', 'sentiment','edge_color'],create_using=nx.Graph())
 
 
-plot = figure(plot_width=700, plot_height=600,
+plot = figure(plot_width=700, plot_height=700,
             x_range=Range1d(-2,2), y_range=Range1d(-2,2))
 plot.title.text = "Force Directed Graph"
 
@@ -121,9 +122,22 @@ graph_renderer.edge_renderer.glyph = MultiLine(line_color="edge_color", line_alp
 
 plot.renderers.append(graph_renderer)
 
-#layout = column(plot)
-curdoc().add_root(column(plot))
-#output_file("static/force_dir"+examplestring+".html", title="Force Directed Graph")
-#save(layout)
-#show(layout)
+bokeh_layout = column(plot)
 
+curdoc().add_root(bokeh_layout)
+#output_file("static/force_dir"+examplestring+".html", title="Force Directed Graph")
+#save(bokeh_layout) # Please do not use the show() or save() functions.
+#show(bokeh_layout) # Please do not use the show() or save() functions.
+
+
+if __name__=="__main__": # This only runs when you run ForceDirVis.py standalone
+    forcedir_process = subprocess.Popen(
+    ['python', '-m', 'bokeh', 'serve', '--allow-websocket-origin=127.0.0.1:5000', '--port', '5002', '--allow-websocket-origin=localhost:5002', 'ForceDirVis.py'], stdout=subprocess.PIPE)
+    
+    print("You have 15 seconds to view the visualisation. Please do not ctrl+c")
+    time.sleep(15)
+
+    def kill_temp_server():
+        print("Automatically killing bokeh server")
+        forcedir_process.kill()
+    atexit.register(kill_temp_server)
