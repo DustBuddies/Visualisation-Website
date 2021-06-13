@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import matplotlib as plt
 import networkx as nx
 from bokeh.io import output_file, show, save, curdoc, output_notebook
@@ -8,7 +7,8 @@ from bokeh.layouts import row, column
 from bokeh.models import Plot, Range1d, MultiLine, Circle, TapTool, OpenURL, HoverTool, CustomJS, Slider, Column
 from bokeh.models import BoxSelectTool, BoxZoomTool, Circle, EdgesAndLinkedNodes, HoverTool, MultiLine, NodesAndLinkedEdges, Plot, Range1d, ResetTool, TapTool
 from bokeh.palettes import Spectral4
-from bokeh.plotting import figure, from_networkx
+from bokeh.plotting import figure
+from bokeh.models.graphs import from_networkx
 from datetime import date
 from bokeh.models import CustomJS, DateRangeSlider, Dropdown, ColumnDataSource
 import os
@@ -110,15 +110,16 @@ code = """
 
     for (const [key, value] of Object.entries(Datey)) {
     if (`${value}`>=cb_obj.value[0]){
+        from_pos = (`${key}`)
 break;
 }
-from_pos = (`${key}`)
+
 }
     for (const [key, value] of Object.entries(Datey).reverse()) {
     if (`${value}`<=cb_obj.value[1]){
+        to_pos = (`${key}`)
 break;
 }
-to_pos = (`${key}`)
 }
 console.log(from_pos,to_pos)
     Datey = Datey.slice(from_pos,to_pos) 

@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import matplotlib as plt
 import networkx as nx
 from bokeh.io import output_file, show, save, curdoc
@@ -8,7 +7,8 @@ from bokeh.layouts import row, column
 from bokeh.models import Plot, Range1d, MultiLine, Circle, TapTool, OpenURL, HoverTool, CustomJS, Slider, Column
 from bokeh.models import BoxSelectTool, BoxZoomTool, Circle, EdgesAndLinkedNodes, HoverTool, MultiLine, NodesAndLinkedEdges, Plot, Range1d, ResetTool, TapTool
 from bokeh.palettes import Spectral4, Spectral8
-from bokeh.plotting import figure, from_networkx
+from bokeh.plotting import figure
+from bokeh.models.graphs import from_networkx
 from datetime import date
 from bokeh.models import CustomJS, DateRangeSlider, Dropdown, ColumnDataSource
 from bokeh.transform import factor_cmap
@@ -98,7 +98,8 @@ plot.xaxis.visible = False
 plot.yaxis.visible = False
 
 # create bokeh graph
-graph_renderer = from_networkx(G, nx.kamada_kawai_layout, scale=1.7, center=(0,0))
+#graph_renderer = from_networkx(G, nx.kamada_kawai_layout, scale=1.7, center=(0,0))
+graph_renderer = from_networkx(G, nx.spring_layout, scale=1, center=(0, 0))
 
 source = ColumnDataSource(data=enronData)
 
@@ -122,7 +123,73 @@ graph_renderer.edge_renderer.glyph = MultiLine(line_color="edge_color", line_alp
 
 plot.renderers.append(graph_renderer)
 
-bokeh_layout = column(plot)
+from bokeh.io import show
+from bokeh.models import CheckboxButtonGroup, CustomJS
+
+LABELS = list(enronData.toJobtitle.unique())
+checkbox_button_group = CheckboxButtonGroup(labels=LABELS,active=[])
+
+
+source = ColumnDataSource(data={'x': enronData})
+code = """ 
+const data = source.data;
+var Datey = eDate.slice();
+var fromEm = fromE.slice();
+var toEm = toE.slice();
+var col = colors.slice();
+var emot = senti.slice();
+var fromJob = fJob.slice();
+var JobIndexes = []
+ActiveLab = []
+
+
+var myArray = this.active;
+    var arrayLength = myArray.length;
+for (var i = 0; i < arrayLength; i++) {
+    ActiveLab.push(label[myArray[i]]);
+}
+
+for (const [key, value] of Object.entries(fJob)) {
+    for (var i = 0; i < arrayLength; i++) {
+    if (`${value}` == ActiveLab[i]){
+    JobIndexes.push(`${key}`)
+    }
+}
+  }
+  
+function maskMe(listed){
+var copied = []
+lenJob = JobIndexes.length
+for (const [key, value] of Object.entries(listed)) {
+    for (var i = 0; i < lenJob; i++) {
+    if (`${key}` == JobIndexes[i]){
+    copied.push(`${value}`)
+    }
+}
+  }
+  listed = copied;
+  copied = [];
+  return listed;
+}
+
+Datey = maskMe(Datey);
+fromEm = maskMe(fromE);
+col = maskMe(col);
+emot = maskMe(emot);
+toEm = maskMe(toEm);
+
+new_data_edge = {'date': Datey, 'start': fromEm,'sentiment':emot,'edge_color':col,'end':toEm};
+graph_renderer.edge_renderer.data_source.data = new_data_edge;  
+"""
+callback = CustomJS(args = dict(graph_renderer = graph_renderer,
+                                source=source,toE = enronData['toEmail'],
+                                fromE = enronData['fromEmail'],eDate = enronData['date'],senti = enronData['sentiment'],colors = enronData['edge_color'],fJob = enronData['fromJobtitle'],label = LABELS),code=code)
+
+
+
+checkbox_button_group.js_on_change("active", callback)
+
+bokeh_layout = column(checkbox_button_group,plot)
 
 curdoc().add_root(bokeh_layout)
 #output_file("static/force_dir"+examplestring+".html", title="Force Directed Graph")
