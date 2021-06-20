@@ -47,7 +47,7 @@ date_range_slider = DateRangeSlider(value=(date(1998, 11, 12), date(2002, 6, 20)
 uniquely = enronData[['toEmail', 'toJobtitle','toId']].drop_duplicates()
 
 #figure or plot? Only time will tell/stackoverflow
-plot = figure(plot_width=700, plot_height=700,
+plot = figure(plot_width=600, plot_height=600,
             x_range=Range1d(-1.1, 1.1), y_range=Range1d(-1.1,1.1))
 plot.title.text = "Radial Nodes and Links Graph"
 

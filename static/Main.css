@@ -13,6 +13,8 @@ body {
 
 main{
     height:2%;
+    /*background-color: magenta;*/
+    max-height: 90vh;
 }
 
 h1 {
@@ -64,7 +66,7 @@ li a:hover {
 /* Visualisation page */
 .row {
     width: 99%;
-    height: 0.1vh;
+    max-height: 30vh;
     margin: 1%;
     margin-left: 0%;
     padding: 0;
@@ -114,6 +116,15 @@ li a:hover {
     cursor: pointer;
 }
 
+#example_button {
+    background-color: rgb(0, 160, 5);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin: 6px;
+    padding: 12px;  
+    cursor: pointer;
+}
+
 /*Vis Box*/
 .viscolumn {
     width: 79%;
@@ -129,7 +140,7 @@ li a:hover {
 }
 
 .visbox {
-
+    width: 100vw;
     height: 100%;
     border: 2px solid black;
     background-color: rgb(78, 78, 78);
@@ -144,16 +155,12 @@ li a:hover {
 #visbox_1{
     width: 49.5%;
     float: left;
+    margin-right: 1%;
 }
 
 #visbox_2{
     width: 49.5%;
-    margin-left: 1%;
     float: left;
-}
-
-.visbox:fullscreen {
-    background-color: rgb(80, 80, 80);
 }
 
 /*buttons above visualisations*/
@@ -246,6 +253,7 @@ li a:hover {
 .dropdown_vis {
     position: relative;
     float: left; 
+    visibility: visible;
 }
 
 .dropdown_vis:hover .dropdown-content {display: block;}
@@ -259,7 +267,7 @@ li a:hover {
 .fullscreen_button {
     float: right;
     background-color: rgb(143, 143, 143);
-
+    visibility: visible;
     cursor: pointer;
 }
 
@@ -387,7 +395,6 @@ li a:hover {
 
 .visframe {
     width: 100%; 
-    min-height: 74vh;
     /*background-color: aqua; */
     overflow: hidden;
     display: none;
@@ -395,20 +402,28 @@ li a:hover {
      
 }
 
-.visframe.visible {
+.visible {
     display: inline-block;
+}
 
+.vishidden {
+    visibility: hidden;
 }
 
 .fullscreen {
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-
+    width: 100vw;
+    min-width: 100vw;
+    height: 100vh;
+    left: 0px;
+    top: 0px;
     /*background-color: rgb(68, 0, 255); */
-    display: none;
-    transform: translate(-49vw, 0); /*scale(1.4)*/
+    /*transform: translate(-49vw, 0);*/ /*scale(1.4)*/ /*Scaling breaks the vis*/
     transform-origin: top left;
     position: absolute;
     float: left;
+    z-index: 10;
+}
+
+.invisible {
+    display: none;
 }

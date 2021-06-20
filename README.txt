@@ -5,10 +5,12 @@
 ~~ How to use: ~~
     1.  Unzip the Visualisation-Website.zip file and save it in a known location on your computer.
     2.  Inside VSCode open the Visualisation-Website folder and run VisWeb.py with a python interpreter. 
-        OR use a terminal to run VisWeb.py with a python interpreter. "python VisWeb.py"
+        OR use a terminal to run VisWeb.py with a python interpreter. EX: "python VisWeb.py"
         It is important to make sure the directory path is in the folder Visualisation-Website before running the website. EX: "C:\Users\[username]\Desktop\Visualisation-Website>"
-    3.  If you are missing a package type in the terminal "pip install [packagename]". Repeat this step multiple times if necessary.
-    4.  If everything is working you should see in the terminal (among other lines) the following output:
+    3.  If you are missing any packages type in the terminal "pip install [packagename]". Repeat this step multiple times if necessary.
+        VERY IMPORTANT: Make sure that Bokeh version 1.4.0 is installed!
+        If not then type in the terminal "pip uninstall bokeh" and then "pip install bokeh==1.4.0".
+    4.  If everything is working you should see in the terminal (among many other lines) the following output:
         "" 
         * Serving Flask app 'VisWeb' (lazy loading)
         * Environment: production
@@ -26,12 +28,6 @@
 
 ~~ Known Issues ~~
 
-    - The search function is currently not functional. Using the search button instead flashes a message in the browser.
-    - The category select function is currently not functional. This also flashes a message in the browser.
-    - The slider of the Radial Visualisation is currently broken. 
-    - Both Visualisations only create 1 node for each row in the .csv file  
-    - In the Radial Visualisation hovering over a node currently shwos no useful information. 
-    - The website Visualisations are only designed to fit on a widescreen monitor. They do not scale to fit the viewing device.
-    - The terminal gives many warnings: 'BokehUserWarning: ColumnDataSource's columns must be of the same length. Current lengths: ('index', 45), ('toId', 27)'
+    - The terminal may give many warnings: 'BokehUserWarning: ColumnDataSource's columns must be of the same length. Current lengths: ('index', 45), ('toId', 27)'
 
 

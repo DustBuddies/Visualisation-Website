@@ -13,13 +13,14 @@ window.onload=function() {
         categories[i].addEventListener('click', function() {HighlightCategory(this)});
     }
     
-
+    /*
     document.addEventListener("fullscreenchange", function() { // Handles the user leaving fullscreen, but NOT using the provided button
         //alert(document.fullscreenElement.id);
         if (!document.fullscreenElement) {
             OpenFullscreen(-1);
         }
     });
+    */
 
     //alert("scripts are loaded");
 };
@@ -51,7 +52,19 @@ function HighlightCategory(catelement) { // toggles highlight of the category bu
 
 
 function OpenFullscreen(visbox) { // This function makes the fullscreen buttons work
-    
+    var fullvisbox = document.getElementsByClassName("visbox fullscreen");
+    if (fullvisbox.length>0) {
+        fullvisbox[0].classList.remove("fullscreen");
+    } else {
+        var visboxes = document.getElementsByClassName("visbox");
+        for (var k=0; k<visboxes.length; k++) {
+            if (visboxes[k].id=="visbox_"+visbox) {
+                visboxes[k].classList.add("fullscreen");
+            }
+        }        
+    }
+
+    /*
     if (document.fullscreenElement || visbox==-1) { // this runs if you leave fullscreen
 
         document.exitFullscreen();
@@ -73,21 +86,19 @@ function OpenFullscreen(visbox) { // This function makes the fullscreen buttons 
         }
 
     } 
+    */
 }
 
 function selectVis(visbox, vischoice) { // 
-    var vis=document.getElementById("visbox_"+visbox);
-    if (vischoice==0) {
-        //vis.style.display="none"; //
-    } else {
-        vis.style.display="inline-block";
-    }
-
+    
+    
     var options=document.getElementsByClassName("visoption");
     for (var i=0; i<options.length ; i++) {
+       
         if (options[i].id.includes("choice_"+visbox)){
             if (options[i].id == "choice_" + visbox + "_" + vischoice) {
             options[i].classList.add("visselected");
+            
             } else {
             options[i].classList.remove("visselected");
             }
@@ -103,6 +114,21 @@ function selectVis(visbox, vischoice) { //
                 visframes[j].classList.remove("visible");
             } 
         }   
+    }
+    
+    var vis = document.getElementById("visbox_" + visbox);
+    if (vischoice == 0) {
+        vis.classList.add("vishidden"); // this class gives attribute: 'visiblity: hidden'
+        vis.classList.remove("visible");
+        document.getElementById("full" + visbox).classList.add("vishidden");
+        if (document.getElementsByClassName("visbox fullscreen").length>0) {
+            
+            OpenFullscreen(visbox);
+        }
+    } else {
+        vis.classList.add("visible"); // this class gives attribute: 'display: none'
+        vis.classList.remove("vishidden");
+        document.getElementById("full" + visbox).classList.remove("vishidden");
     }
 }
 

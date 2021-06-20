@@ -44,7 +44,7 @@ G = nx.Graph()
 G = nx.from_pandas_edgelist(enronData, 'fromEmail', 'toEmail', edge_attr=['date', 'sentiment','edge_color'],create_using=nx.Graph())
 
 
-plot = figure(plot_width=700, plot_height=700,
+plot = figure(plot_width=600, plot_height=600,
             x_range=Range1d(-2,2), y_range=Range1d(-2,2))
 plot.title.text = "Force Directed Graph"
 
