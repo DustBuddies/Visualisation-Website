@@ -2,9 +2,6 @@
 window.onload=function() {
     //alert("scripts are loading");
 
-
-    
-
     var categories = document.getElementsByTagName("c");
 
     for (var i = 0; i < categories.length; i++) { //prepares all category buttons for later use
@@ -13,28 +10,38 @@ window.onload=function() {
         categories[i].addEventListener('click', function() {HighlightCategory(this)});
     }
     
-    /*
-    document.addEventListener("fullscreenchange", function() { // Handles the user leaving fullscreen, but NOT using the provided button
-        //alert(document.fullscreenElement.id);
-        if (!document.fullscreenElement) {
-            OpenFullscreen(-1);
-        }
-    });
-    */
-
-    //alert("scripts are loaded");
 };
 
-/*
-document.onkeydown=function(event) {
-    alert("keypress: "+event.key);
-    if (event.key=="Escape") {
-        
+
+document.onkeydown=function(event) { // This allows the user to interact with their keyboard
+    //alert("keypress: "+event.key);
+    switch(event.key) {
+        case "Escape":
+            OpenFullscreen(-1);
+            break;
+        case "1":
+            selectVis(1,0);
+            break;
+        case "2":
+            selectVis(1,1);
+            break;
+        case "3":
+            selectVis(1,2);
+            break;
+        case "4":
+            selectVis(2,0);
+            break;
+        case "5":
+            selectVis(2,1);
+            break;
+        case "6":
+            selectVis(2,2);
+            break;
     }
 };
-*/
 
-function HighlightCategory(catelement) { // toggles highlight of the category buttons when pressed 
+
+function HighlightCategory(catelement) { // NOT USED toggles highlight of the category buttons when pressed 
     var catclass=catelement.className;
     //alert("id: "+catelement.id+" class: "+catclass+" content: "+catelement.textContent);
 
@@ -53,9 +60,9 @@ function HighlightCategory(catelement) { // toggles highlight of the category bu
 
 function OpenFullscreen(visbox) { // This function makes the fullscreen buttons work
     var fullvisbox = document.getElementsByClassName("visbox fullscreen");
-    if (fullvisbox.length>0) {
+    if (fullvisbox.length>0 || visbox==-1) { // Triggers if the website is already showing a vis fullscreen
         fullvisbox[0].classList.remove("fullscreen");
-    } else {
+    } else { 
         var visboxes = document.getElementsByClassName("visbox");
         for (var k=0; k<visboxes.length; k++) {
             if (visboxes[k].id=="visbox_"+visbox) {
@@ -64,47 +71,23 @@ function OpenFullscreen(visbox) { // This function makes the fullscreen buttons 
         }        
     }
 
-    /*
-    if (document.fullscreenElement || visbox==-1) { // this runs if you leave fullscreen
-
-        document.exitFullscreen();
-
-        var fullscreenvisframes=document.getElementsByClassName("visframe fullscreen");
-        for (var i=0; i<fullscreenvisframes.length; i++) {
-            fullscreenvisframes[i].classList.remove("fullscreen");
-        }
-
-    } else { // this runs when you go to fullscreen
-
-        var visbox_=document.getElementById("visbox_"+visbox);
-        visbox_.requestFullscreen();
-
-        var visframes=document.getElementsByClassName("visframe");
-        for (var j=0; j<visframes.length; j++) {
-
-            visframes[j].classList.add("fullscreen");
-        }
-
-    } 
-    */
 }
 
-function selectVis(visbox, vischoice) { // 
+function selectVis(visbox, vischoice) { // Shows the selected visualisation
     
-    
+    // This code fragment colors the dropdown buttons
     var options=document.getElementsByClassName("visoption");
     for (var i=0; i<options.length ; i++) {
-       
-        if (options[i].id.includes("choice_"+visbox)){
-            if (options[i].id == "choice_" + visbox + "_" + vischoice) {
-            options[i].classList.add("visselected");
-            
+        if (options[i].id.includes("choice_"+visbox)){ // Only affects the buttons of 1 box not both 
+            if (options[i].id == "choice_" + visbox + "_" + vischoice) { 
+            options[i].classList.add("visselected"); // Colors the selected button
             } else {
-            options[i].classList.remove("visselected");
+            options[i].classList.remove("visselected"); // Removes colors from all unselected buttons
             }
         }
-        
     }
+
+    // This code fragment makes the selected visualisation visible (they are invisible by default)
     var visframes=document.getElementsByClassName("visframe");
     for (var j = 0; j < visframes.length; j++) {
         if (visframes[j].id.includes("visualisation_" + visbox)) {
@@ -116,42 +99,39 @@ function selectVis(visbox, vischoice) { //
         }   
     }
     
+    // This code fragment can hide the entire visbox
     var vis = document.getElementById("visbox_" + visbox);
-    if (vischoice == 0) {
-        vis.classList.add("vishidden"); // this class gives attribute: 'visiblity: hidden'
-        vis.classList.remove("visible");
-        document.getElementById("full" + visbox).classList.add("vishidden");
+    if (vischoice == 0) { // Triggers if the '-Remove Visualisation-' button is pressed
+        vis.classList.add("vishidden"); // this class gives attribute: 'visiblity: hidden', the visbox will still occupy space on the website
+
         if (document.getElementsByClassName("visbox fullscreen").length>0) {
-            
-            OpenFullscreen(visbox);
+            OpenFullscreen(-1); // If the user was viewing in fullscreen, exit fullscreen
         }
     } else {
-        vis.classList.add("visible"); // this class gives attribute: 'display: none'
-        vis.classList.remove("vishidden");
-        document.getElementById("full" + visbox).classList.remove("vishidden");
+        vis.classList.remove("vishidden"); // The visbox will become visible by default (if it wasn't already)
     }
 }
 
 
-function searchNode(searchboxnum) {
+function searchNode(searchboxnum) { // NOT USED
     alert("searchbox: "+searchboxnum+" (does not work yet)");
     var searchbox=document.getElementById("search_"+searchboxnum);
     //window.location="website.php?search=searchbox.value";
     //alert("search node(s) with name: "+searchbox.value+" (not functional)");
 }
 
-// settings popup
-function OpenSettings() {
+
+function OpenSettings() { // NOT USED settings popup
     //alert("test123");
     document.getElementById("set_popup").style.display = "block";
 };
 
-function CloseSettings() {
+function CloseSettings() { // NOT USED
     //alert("test456");
     document.getElementById("set_popup").style.display="none";
 };
 
-window.onclick=function(event) {
+window.onclick = function (event) { // NOT USED
     if (event.target == document.getElementById("set_popup")) {
         CloseSettings();
     }

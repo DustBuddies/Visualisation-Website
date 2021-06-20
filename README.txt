@@ -28,6 +28,7 @@
 
 ~~ Known Issues ~~
 
+    - The hover tool does not show any useful information in both visualisations
     - The terminal may give many warnings: 'BokehUserWarning: ColumnDataSource's columns must be of the same length. Current lengths: ('index', 45), ('toId', 27)'
 
 

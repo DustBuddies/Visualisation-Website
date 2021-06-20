@@ -2,21 +2,21 @@ import numpy as np
 import pandas as pd
 import matplotlib as plt
 import networkx as nx
-from bokeh.io import output_file, show, save, curdoc, output_notebook
+from bokeh.io import output_file, show, save, curdoc
 from bokeh.layouts import row, column
 from bokeh.models import Plot, Range1d, MultiLine, Circle, TapTool, OpenURL, HoverTool, CustomJS, Slider, Column
 from bokeh.models import BoxSelectTool, BoxZoomTool, Circle, EdgesAndLinkedNodes, HoverTool, MultiLine, NodesAndLinkedEdges, Plot, Range1d, ResetTool, TapTool
-from bokeh.palettes import Spectral4
+from bokeh.palettes import Spectral4, Spectral8
 from bokeh.plotting import figure
 from bokeh.models.graphs import from_networkx
 from datetime import date
 from bokeh.models import CustomJS, DateRangeSlider, Dropdown, ColumnDataSource
+from bokeh.transform import factor_cmap
 import os
 import glob
 import re
 import subprocess
 import time
-import signal
 import atexit
 
 

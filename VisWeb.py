@@ -1,13 +1,27 @@
-import os
 from bokeh.embed.server import server_document
 from flask import Flask, flash, render_template, request
 from werkzeug.utils import secure_filename
+
 import numpy as np
 import pandas as pd
-from bokeh.models import Plot, Range1d, MultiLine, Circle, TapTool, OpenURL, HoverTool, CustomJS, Slider, Column, CustomJS, DateRangeSlider, Dropdown, ColumnDataSource
+import matplotlib as plt
+import networkx as nx
+from bokeh.io import output_file, show, save, curdoc
+from bokeh.layouts import row, column
+from bokeh.models import Plot, Range1d, MultiLine, Circle, TapTool, OpenURL, HoverTool, CustomJS, Slider, Column
 from bokeh.models import BoxSelectTool, BoxZoomTool, Circle, EdgesAndLinkedNodes, HoverTool, MultiLine, NodesAndLinkedEdges, Plot, Range1d, ResetTool, TapTool
-import atexit
+from bokeh.palettes import Spectral4, Spectral8
+from bokeh.plotting import figure
+from bokeh.models.graphs import from_networkx
+from datetime import date
+from bokeh.models import CustomJS, DateRangeSlider, Dropdown, ColumnDataSource
+from bokeh.transform import factor_cmap
+import os
+import glob
+import re
 import subprocess
+import time
+import atexit
 
 #
 # BEFORE RUNNING THIS FILE MAKE SURE YOU ARE IN THE FOLDER 'Visualisation-Website'
