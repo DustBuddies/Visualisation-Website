@@ -10,7 +10,7 @@
     3.  If you are missing any packages type in the terminal "pip install [packagename]". Repeat this step multiple times if necessary.
         VERY IMPORTANT: Make sure that Bokeh version 1.4.0 is installed!
         If not then type in the terminal "pip uninstall bokeh" and then "pip install bokeh==1.4.0".
-    4.  If everything is working you should see in the terminal (among many other lines) the following output:
+    4.  If everything is working correctly you should see in the terminal (among many other lines) the following output:
         "" 
         * Serving Flask app 'VisWeb' (lazy loading)
         * Environment: production
@@ -23,7 +23,7 @@
         * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
         ""
     5.  Now you can open the website, paste in the searchbar of your internet browser "http://127.0.0.1:5000/" and hit enter. 
-    6.  Once you are done go into the terminal and press ctrl+c to close the website.
+    6.  Once you are done using the website go into the terminal and press ctrl+c to close it.
 
 
 ~~ Known Issues ~~

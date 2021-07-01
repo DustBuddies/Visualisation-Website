@@ -28,13 +28,13 @@ document.onkeydown=function(event) { // This allows the user to interact with th
         case "3":
             selectVis(1,2);
             break;
-        case "4":
+        //case "4":
             selectVis(2,0);
             break;
-        case "5":
+        //case "5":
             selectVis(2,1);
             break;
-        case "6":
+        //case "6":
             selectVis(2,2);
             break;
     }
