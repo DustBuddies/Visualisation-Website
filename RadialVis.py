@@ -48,8 +48,9 @@ enronData.loc[enronData['sentiment'] >= 0, 'edge_color'] = 'green'
 G = nx.Graph()
 G = nx.from_pandas_edgelist(enronData, 'fromEmail', 'toEmail', edge_attr=['date', 'sentiment','edge_color'],create_using=nx.Graph())
 
-
-date_range_slider = DateRangeSlider(value=(date(1998, 11, 12), date(2002, 6, 20)),start=date(1998, 11, 12), end=date(2002, 6, 20),step = 1)
+oldest_date=enronData.date.min()
+latest_date=enronData.date.max()
+date_range_slider = DateRangeSlider(value=(oldest_date, latest_date),start=oldest_date, end=latest_date,step = 1)
 
 uniquely = enronData[['toEmail','toJobtitle','toId']].drop_duplicates()
 sent_group = enronData.groupby(['fromEmail','toEmail']).mean()

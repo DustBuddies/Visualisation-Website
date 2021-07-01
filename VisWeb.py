@@ -50,7 +50,7 @@ def vispage():
         if 'file' not in request.files: # page shown when a submitted form does not contain any 'file'-named part, like the 'show default' button
             #flash('no file part in the form?')
             radial_script=server_document(url="http://localhost:5001/RadialVis", arguments={'exampledata':"_example"})
-            return render_template("visualisation.html", Radial=radial_script, message="Showing example dataset.", categories=examplejobs) #ForceDir=forcedir_script,
+            return render_template("visualisation.html", Radial=radial_script, message="Showing example dataset.", categories=examplejobs) 
         
         file = request.files["file"]
         

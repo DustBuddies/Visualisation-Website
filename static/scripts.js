@@ -62,11 +62,20 @@ function OpenFullscreen(visbox) { // This function makes the fullscreen buttons 
     var fullvisbox = document.getElementsByClassName("visbox fullscreen");
     if (fullvisbox.length>0 || visbox==-1) { // Triggers if the website is already showing a vis fullscreen
         fullvisbox[0].classList.remove("fullscreen");
+        selectVis(visbox, 2);
+        setTimeout(function() {
+            selectVis(visbox, 1);
+        }, 300);
     } else { 
         var visboxes = document.getElementsByClassName("visbox");
         for (var k=0; k<visboxes.length; k++) {
             if (visboxes[k].id=="visbox_"+visbox) {
                 visboxes[k].classList.add("fullscreen");
+                selectVis(visbox, 2);
+                setTimeout(function() {
+                    selectVis(visbox, 1);
+                }, 300);
+                
             }
         }        
     }
