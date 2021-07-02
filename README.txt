@@ -25,10 +25,3 @@
     5.  Now you can open the website, paste in the searchbar of your internet browser "http://127.0.0.1:5000/" and hit enter. 
     6.  Once you are done using the website go into the terminal and press ctrl+c to close it.
 
-
-~~ Known Issues ~~
-
-    - The hover tool does not show any useful information in both visualisations
-    - The terminal may give many warnings: 'BokehUserWarning: ColumnDataSource's columns must be of the same length. Current lengths: ('index', 45), ('toId', 27)'
-
-

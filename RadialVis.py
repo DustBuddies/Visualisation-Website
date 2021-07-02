@@ -52,6 +52,7 @@ oldest_date=enronData.date.min()
 latest_date=enronData.date.max()
 date_range_slider = DateRangeSlider(value=(oldest_date, latest_date),start=oldest_date, end=latest_date,step = 1)
 
+
 uniquely = enronData[['toEmail','toJobtitle','toId']].drop_duplicates()
 sent_group = enronData.groupby(['fromEmail','toEmail']).mean()
 sent_group = sent_group.reset_index()
@@ -59,10 +60,16 @@ df = pd.merge(enronData, sent_group, on=['fromEmail','toEmail'], how='left')
 
 plot = figure(x_range=Range1d(-2,2), y_range=Range1d(-2,2))
 plot.title.text = "Radial Nodes and Links Graph"
-plot.sizing_mode="scale_height"
+plot.sizing_mode = "scale_height"
 
-node_hover_tool = HoverTool(tooltips=[('Email', '@index'), ('ID', '@toId'), ('Job', '@toJobtitle')])
-plot.add_tools(node_hover_tool, TapTool())
+#node_hover_tool = HoverTool(tooltips=[('Email', '@index'), ('ID', '@toId'), ('Job', '@toJobtitle')])
+plot.add_tools(TapTool())
+
+plot.xgrid.visible = False
+plot.ygrid.visible = False
+
+plot.xaxis.visible = False
+plot.yaxis.visible = False
 
 graph_renderer = from_networkx(G, nx.circular_layout, scale=1, center=(0,0))
 
@@ -73,21 +80,21 @@ adjusted_node_size = dict([(node, degree+number_to_adjust_by) for node, degree i
 nx.set_node_attributes(G, name='adjusted_node_size', values=adjusted_node_size)
 
 size_by_this_attribute = 'adjusted_node_size'
-    #node color - none,selected,hover
+#node color - none,selected,hover
 graph_renderer.node_renderer.glyph = Circle(size=10, fill_color=Spectral4[0])
 graph_renderer.node_renderer.selection_glyph = Circle(size=size_by_this_attribute, fill_color=Spectral4[2])
-graph_renderer.node_renderer.hover_glyph = Circle(size=15, fill_color=Spectral4[1])
+#graph_renderer.node_renderer.hover_glyph = Circle(size=15, fill_color=Spectral4[1])
 
 graph_renderer.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=5)
 graph_renderer.edge_renderer.selection_glyph = MultiLine(line_color=Spectral4[2], line_width=5)
-graph_renderer.edge_renderer.hover_glyph = MultiLine(line_color=Spectral4[1], line_width=5)
+#graph_renderer.edge_renderer.hover_glyph = MultiLine(line_color=Spectral4[1], line_width=5)
 
 graph_renderer.selection_policy = NodesAndLinkedEdges()
 #graph_renderer.inspection_policy = NodesAndLinkedEdges()
 
-graph_renderer.node_renderer.data_source.data['toId'] = uniquely['toId']
-graph_renderer.node_renderer.data_source.data['toEmail'] = list(G.nodes)
-graph_renderer.node_renderer.data_source.data['toJobtitle'] = uniquely['toJobtitle']
+#graph_renderer.node_renderer.data_source.data['toId'] = uniquely['toId']
+#graph_renderer.node_renderer.data_source.data['toEmail'] = list(G.nodes)
+#graph_renderer.node_renderer.data_source.data['toJobtitle'] = uniquely['toJobtitle']
 
 graph_renderer.edge_renderer.glyph = MultiLine(line_color="edge_color", line_alpha=0.8, line_width=1)
 plot.renderers.append(graph_renderer)
@@ -97,7 +104,7 @@ plot.renderers.append(graph_renderer)
 
 plot_2 = figure(x_range=Range1d(-2,2), y_range=Range1d(-2,2))
 plot_2.title.text = "Force Directed Graph"
-plot_2.sizing_mode="scale_height"
+plot_2.sizing_mode = "scale_height"
 
 degrees = dict(nx.degree(G))
 nx.set_node_attributes(G, name='degree', values=degrees)
@@ -138,8 +145,8 @@ uniquely.loc[uniquely['toJobtitle'] == 'CEO', 'node_color'] = 'crimson'
     
 #nx.draw(G, node_color=uniquely['toJobtitle'].cat.codes, cmap=cmap)
     
-node_hover_tool = HoverTool(tooltips=[('Email', '@toEmail'), ('ID', '@toId'), ('Job', '@toJobtitle')])
-plot_2.add_tools(node_hover_tool, TapTool())
+#node_hover_tool = HoverTool(tooltips=[('Email', '@toEmail'), ('ID', '@toId'), ('Job', '@toJobtitle')])
+plot_2.add_tools(TapTool())
 
 plot_2.xgrid.visible = False
 plot_2.ygrid.visible = False
@@ -156,18 +163,18 @@ source = ColumnDataSource(data=enronData)
 graph_renderer_2.node_renderer.data_source.add(uniquely['node_color'], 'color')
 graph_renderer_2.node_renderer.glyph = Circle(size=size_by_this_attribute, fill_color="color")
 graph_renderer_2.node_renderer.selection_glyph = Circle(size=15, fill_color=Spectral4[2])
-graph_renderer_2.node_renderer.hover_glyph = Circle(size=15, fill_color=Spectral4[1])
+#graph_renderer_2.node_renderer.hover_glyph = Circle(size=15, fill_color=Spectral4[1])
 
 graph_renderer_2.edge_renderer.glyph = MultiLine(line_color="#CCCCCC", line_alpha=0.8, line_width=5)
 graph_renderer_2.edge_renderer.selection_glyph = MultiLine(line_color=Spectral4[2], line_width=5)
-graph_renderer_2.edge_renderer.hover_glyph = MultiLine(line_color=Spectral4[1], line_width=5)
+##graph_renderer_2.edge_renderer.hover_glyph = MultiLine(line_color=Spectral4[1], line_width=5)
 
 graph_renderer_2.selection_policy = NodesAndLinkedEdges()
 #graph_renderer.inspection_policy = NodesAndLinkedEdges()
 
-graph_renderer_2.node_renderer.data_source.data['toId'] = uniquely['toId']
-graph_renderer_2.node_renderer.data_source.data['toEmail'] = uniquely['toEmail']
-graph_renderer_2.node_renderer.data_source.data['toJobtitle'] = uniquely['toJobtitle']
+#graph_renderer_2.node_renderer.data_source.data['toId'] = uniquely['toId']
+#graph_renderer_2.node_renderer.data_source.data['toEmail'] = uniquely['toEmail']
+#graph_renderer_2.node_renderer.data_source.data['toJobtitle'] = uniquely['toJobtitle']
 
 graph_renderer_2.edge_renderer.glyph = MultiLine(line_color="edge_color", line_alpha=0.8, line_width=1)
 
@@ -228,8 +235,9 @@ date_range_slider.js_on_change('value', callback)
 from bokeh.io import show
 from bokeh.models import CheckboxButtonGroup, CustomJS
 
-LABELS = list(enronData.toJobtitle.unique())
+LABELS = list(sorted(enronData.toJobtitle.unique()))
 checkbox_button_group = CheckboxButtonGroup(labels=LABELS,active=[])
+
 
 code = """ 
 const data = source.data;
@@ -304,6 +312,7 @@ p = gridplot([[plot,plot_2]])
 bokeh_layout = column(p,date_range_slider,checkbox_button_group)
 bokeh_layout.sizing_mode="scale_height"
 bokeh_layout.height_policy="max"
+bokeh_layout.width_policy="max"
 
 curdoc().add_root(bokeh_layout)
 #output_file("static/radial_nodes"+examplestring+".html", title="Radial Node and Link Visualisation")
