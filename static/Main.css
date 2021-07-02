@@ -427,3 +427,20 @@ li a:hover {
 .invisible {
     display: none;
 }
+
+.aboutcenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto; 
+  }
+
+.aboutcolumn { 
+    float: left;
+    width: 50%;
+    padding: 5px;
+}
+.aboutrow {
+    content: "";
+    clear: both;
+    display: table;
+}

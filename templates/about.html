@@ -7,7 +7,7 @@
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     </head>
 
-    <body>
+    <body style="overflow-y: auto;">
         <nav>
             <a href="/">Home</a>
             <a href="visualisation"> Visualisation</a>
@@ -19,12 +19,63 @@
                     <h2> Who are we? </h2>
                     We are Group 10BC of the course DBL + Webtech (2IOA0) at Eindhoven University of Technology. <br>
                     Our group's members are: <br>
-                    Jeffrey L., Melih Ş., Prayag J., Rik v. N., Stavros K., Sander v.d. L., Yavuz B. <br>
-
+                    Jeffrey L., Melih Ş., Prayag J., Rik v. N., Stavros K., Sander v.d. L., Yavuz B. <br> <br>
                 </article>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/vjHy9-7S_Yc" title="YouTube video player" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>     
+                <div class="aboutrow">
+                    <div class="aboutcolumn">
+                        <img src="{{ url_for('static', filename='IMG_20210626_134145.jpg') }}" width='30%' height='30%'>
+                        <p> I’m Jeffrey Lint from the visualisation team. In this project I primarily focused on designing
+                            and doing research for the visualisations. <br> I also helped with setting up the skeletons of
+                            the programming. Aside from that, <br>I mainly worked on some odd jobs around the project, such
+                            as fixing minor errors <br> and making slight adjustments in the programming and writing the
+                            reports.</p>
+                    </div>
+                    <div class="aboutcolumn">
+                        <img src="{{ url_for('static', filename='Sander_Profile_Photo.jpg') }}" width='20%' height='20%'>
+                        <p> I'm Sander Van Der Leek from the visualization team. In this project I mainly focused on <br>
+                            construction of the back-end project which inlcuded programming in FLASK. <br> I also organized
+                            folders and file in order in GitHub for my team-mates to work efficiently and fast.</p>
+                    </div>
+                </div>
+                <div class="aboutrow">
+                    <div class="aboutcolumn">
+                        <img src="{{ url_for('static', filename='image0.jpg') }}" width='20%' height='20%'>
+                        <p>Hello I am Melih. I am responsible for the website layout and the second visualization of the
+                            project. <br> I am from Turkey and I am currently 19 years old. I love playing sports..</p>
+                    </div>
+                    <div class="aboutcolumn">
+                        <img src="{{ url_for('static', filename='20210627_144431.jpg') }}" width="20%" height="20%">
+                        <p> Hi, I'm Prayag Joy and I'm the Scrum master of group 10BC. I was involved with the creation of
+                            the <br> visualisations and was in charge of implementing of interactive callbacks ,brushing and
+                            linking.</p>
+                    </div>
+                </div>
+                <div class="aboutrow">
+                    <div class="aboutcolumn">
+                        <img src="{{ url_for('static', filename='thumbnail.jfif') }}" width="20%" height="20%">
+                        <p> Hi! I am Stavros Kannavas, and I am 20 years old from Limassol, Cyprus. For Group 10 BC's
+                            project <br>. I am responsible for the interactive visualizations of the website, the radial
+                            visualization and the force-directed graph.</p>
+                    </div>
+                    <div class="aboutcolumn">
+                        <img src="{{ url_for('static', filename='Photo_Rik.jpg') }}" width="20%" height="20%">
+                        <p>Hi I am Rik, repponsible for the programming of the website. I am mostly focused on the HTML and
+                            CSS of the website.</p>
+                    </div>
+                </div>
+                <div class="aboutrow">
+                    <div class="aboutcolumn">
+                        <img src="{{ url_for('static', filename='PhotoYavuz.jpg') }} " width="50%" height="50%">
+                        <p>Hi, I am Yavuz, I am 18 years old and I like playing tennis and piano. <br>I am responible for the design layout and structure of the website. <br> I have worked on technicalities such as where the visualization should be, <br>where the upload button should be and so on.
+                        </p>
+                    </div>
+                    <div class="aboutcolumn">
+                        <iframe width="700" height="393.75" src="https://www.youtube.com/embed/vjHy9-7S_Yc" title="YouTube video player" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
             </section>
         </main>
-
+    
     </body>
+    
 </html>
